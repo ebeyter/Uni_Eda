@@ -26,20 +26,20 @@ export default function EdaHome() {
   return (
     <Layout nav={EDA_NAV}>
       <header className="mb-10">
-        <p className="text-xs uppercase tracking-[0.2em] text-ink-faint mb-3">
+        <p className="section-title mb-3">
           {new Date().toLocaleDateString('tr-TR', {
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
           })}
         </p>
-        <h1 className="text-4xl mb-3">Hi Eda, let's build your future</h1>
-        <p className="text-ink-soft max-w-xl leading-relaxed">
+        <h1 className="text-5xl sm:text-6xl font-bold mb-4 leading-[1.05]">Hi Eda,<br />let's build your <span className="text-accent">future</span></h1>
+        <p className="lede max-w-xl">
           Başvuru sürecinin tamamı burada. Yaklaşan son tarihler aşağıda,
           kalan günler otomatik hesaplanıyor.
         </p>
       </header>
 
       {error && (
-        <div className="rounded-lg border border-line bg-surface p-4 mb-6">
+        <div className="rounded-2xl border border-line bg-surface p-4 mb-6">
           <p className="text-sm text-alert-critical">Veri okunamadı: {error}</p>
         </div>
       )}
@@ -47,9 +47,9 @@ export default function EdaHome() {
       {loading ? (
         <p className="text-ink-faint text-sm">Yükleniyor…</p>
       ) : rows.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-line bg-surface/60 p-10 text-center">
+        <div className="rounded-2xl border-2 border-dashed border-line bg-surface/60 p-10 text-center">
           <h2 className="text-xl mb-2">Henüz üniversite eklenmemiş</h2>
-          <p className="text-ink-soft text-sm max-w-sm mx-auto leading-relaxed">
+          <p className="text-ink-soft max-w-sm mx-auto leading-relaxed">
             İlk üniversiteni eklediğinde son tarihler burada kartlar hâlinde
             görünecek ve kalan gün sayısı kendiliğinden işlemeye başlayacak.
           </p>
@@ -58,10 +58,10 @@ export default function EdaHome() {
         <>
           {urgent.length > 0 && (
             <section className="mb-10">
-              <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4">
+              <h2 className="section-title mb-4">
                 Dikkat gerektirenler
               </h2>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 [&>*]:min-w-0">
                 {urgent.map((item) => (
                   <DeadlineCard key={item.id} item={item} />
                 ))}
@@ -70,10 +70,10 @@ export default function EdaHome() {
           )}
 
           <section>
-            <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4">
+            <h2 className="section-title mb-4">
               Tüm başvurular ({rows.length})
             </h2>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 [&>*]:min-w-0">
               {rows.map((item) => (
                 <DeadlineCard key={item.id} item={item} />
               ))}

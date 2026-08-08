@@ -1,7 +1,28 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { useAuth } from '../auth/AuthProvider'
 import { isConfigured } from '../lib/supabase'
 import { MIN_CODE_LENGTH } from '../lib/accessCode'
+import ThemeToggle from '../components/ThemeToggle'
+
+// Arka planda yavaşça süzülen renk lekeleri
+function Background() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+      <div className="blob absolute -top-40 -left-32 h-[30rem] w-[30rem] rounded-full
+                      bg-accent/30 blur-3xl" />
+      <div className="blob absolute top-1/4 -right-40 h-[34rem] w-[34rem] rounded-full
+                      bg-amber/25 blur-3xl" style={{ animationDelay: '-6s' }} />
+      <div className="blob absolute -bottom-48 left-1/3 h-[28rem] w-[28rem] rounded-full
+                      bg-mint/25 blur-3xl" style={{ animationDelay: '-12s' }} />
+    </div>
+  )
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 90, damping: 18 } },
+}
 
 export default function Login() {
   const { signInWithCode } = useAuth()
@@ -24,19 +45,17 @@ export default function Login() {
       setError(error.message)
       setBusy(false)
     }
-    // Başarılıysa AuthProvider yönlendirmeyi devralır
   }
 
   if (!isConfigured) {
     return (
-      <div className="min-h-full grid place-items-center p-6">
-        <div className="max-w-md rounded-lg border border-line bg-surface p-6">
-          <h1 className="text-xl mb-2">Bağlantı ayarlanmamış</h1>
-          <p className="text-ink-soft text-sm leading-relaxed">
-            <code className="text-ink">.env</code> dosyasındaki{' '}
-            <code className="text-ink">VITE_SUPABASE_URL</code> ve{' '}
-            <code className="text-ink">VITE_SUPABASE_PUBLISHABLE_KEY</code> değerleri boş.
-            Doldurduktan sonra sunucuyu yeniden başlat.
+      <div className="relative min-h-full grid place-items-center p-6">
+        <Background />
+        <div className="relative max-w-md rounded-2xl border border-line bg-surface p-6 shadow-xl">
+          <h1 className="text-2xl mb-2">Bağlantı ayarlanmamış</h1>
+          <p className="lede">
+            <code className="text-ink font-bold">.env</code> dosyasındaki Supabase
+            değerleri boş. Doldurduktan sonra sunucuyu yeniden başlat.
           </p>
         </div>
       </div>
@@ -44,60 +63,99 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-full grid place-items-center p-6">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <p className="text-xs uppercase tracking-[0.2em] text-ink-faint mb-3">
-            Uni Plan
-          </p>
-          <h1 className="text-3xl mb-2">Welcome back</h1>
-          <p className="text-ink-soft text-sm">
-            Devam etmek için kodunu gir
-          </p>
-        </div>
+    <div className="relative min-h-full flex items-center justify-center">
+      <Background />
 
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-lg border border-line bg-surface p-6 space-y-4"
+      <div className="absolute top-5 right-5 z-10">
+        <ThemeToggle />
+      </div>
+
+      <motion.div
+        initial="hidden"
+        animate="show"
+        transition={{ staggerChildren: 0.15 }}
+        className="relative w-full max-w-5xl px-6 py-20 text-center"
+      >
+        {/* Karşılama */}
+        <motion.p
+          variants={fadeUp}
+          className="font-display text-3xl sm:text-4xl font-bold text-accent mb-5"
         >
-          <div>
-            <label htmlFor="code" className="block text-sm text-ink-soft mb-1.5">
-              Kod
-            </label>
-            <input
-              id="code"
-              type="password"
-              required
-              autoFocus
-              autoComplete="current-password"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full rounded-md border border-line bg-parchment px-3 py-2.5
-                         text-ink tracking-wider outline-none
-                         focus:border-accent focus:ring-1 focus:ring-accent"
-            />
-          </div>
+          Welcome!!
+        </motion.p>
 
-          {error && (
-            <p role="alert" className="text-sm text-alert-critical">
-              {error}
-            </p>
-          )}
+        {/* Ana başlık — sayfanın en baskın öğesi */}
+        <motion.h1
+          variants={fadeUp}
+          className="text-5xl sm:text-7xl lg:text-8xl mx-auto max-w-4xl"
+        >
+          Follow Eda's university application journey
+        </motion.h1>
 
-          <button
+        {/* Kod girişi */}
+        <motion.form
+          variants={fadeUp}
+          onSubmit={handleSubmit}
+          className="mt-12 flex flex-col sm:flex-row items-stretch justify-center gap-3
+                     mx-auto max-w-2xl"
+        >
+          <motion.button
             type="submit"
             disabled={busy}
-            className="w-full rounded-md bg-accent px-4 py-2.5 text-white
-                       hover:opacity-90 disabled:opacity-50 transition"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="h-16 shrink-0 inline-flex items-center justify-center gap-3
+                       rounded-full bg-accent px-8 text-lg font-bold text-white
+                       shadow-xl shadow-accent/30 hover:bg-accent-dark
+                       disabled:opacity-50 transition-colors"
           >
-            {busy ? 'Kontrol ediliyor…' : 'Giriş yap'}
-          </button>
-        </form>
+            {busy ? 'Kontrol ediliyor…' : 'Başlamak için kodu gir'}
+            {busy ? (
+              <span className="block h-5 w-5 rounded-full border-2 border-white/40
+                               border-t-white animate-spin" />
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" strokeWidth="2.6"
+                   strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            )}
+          </motion.button>
 
-        <p className="text-center text-xs text-ink-faint mt-5 leading-relaxed">
-          Kodunu Eda veriyor —<br />bu site kayıt almıyor.
-        </p>
-      </div>
+          <input
+            type="password"
+            required
+            autoFocus
+            aria-label="Kod"
+            autoComplete="current-password"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            placeholder="Kodun"
+            className="h-16 flex-1 min-w-0 rounded-full border-2 border-line
+                       bg-surface/80 backdrop-blur-sm px-7 text-lg font-bold
+                       tracking-widest text-center sm:text-left
+                       placeholder:font-medium placeholder:tracking-normal
+                       placeholder:text-ink-faint
+                       outline-none transition focus:border-accent focus:bg-surface"
+          />
+        </motion.form>
+
+        {error && (
+          <motion.p
+            role="alert"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-5 inline-block rounded-full bg-accent-soft px-5 py-2.5
+                       font-bold text-accent-dark"
+          >
+            {error}
+          </motion.p>
+        )}
+
+        <motion.p variants={fadeUp} className="mt-10 text-sm font-medium text-ink-faint">
+          Kodunuzu Eda verdi, bu site kayıt almıyor.
+        </motion.p>
+      </motion.div>
     </div>
   )
 }

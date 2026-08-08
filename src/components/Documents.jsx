@@ -13,7 +13,7 @@ const DOC_TYPES = {
 }
 
 const FIELD =
-  'w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm ' +
+  'w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm ' +
   'outline-none focus:border-accent focus:ring-1 focus:ring-accent'
 
 function formatSize(bytes) {
@@ -113,7 +113,7 @@ export default function Documents({ universityId }) {
 
   return (
     <section className="mt-12">
-      <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4 pb-2 border-b border-line">
+      <h2 className="section-title mb-4 pb-2 border-b border-line">
         Dökümanlar ({docs.length})
       </h2>
 
@@ -124,7 +124,7 @@ export default function Documents({ universityId }) {
           {docs.map((doc) => (
             <li
               key={doc.id}
-              className="group rounded-lg border border-line bg-surface px-5 py-4
+              className="group rounded-2xl border border-line bg-surface px-5 py-4
                          flex flex-wrap items-center justify-between gap-x-6 gap-y-2"
             >
               <div className="min-w-0">
@@ -145,7 +145,7 @@ export default function Documents({ universityId }) {
                   <select
                     value={doc.stage}
                     onChange={(e) => updateStage(doc, e.target.value)}
-                    className="rounded-md border border-line bg-parchment px-2 py-1 text-xs
+                    className="rounded-xl border-2 border-line bg-canvas px-2 py-1 text-xs
                                outline-none focus:border-accent"
                   >
                     {Object.entries(STAGE_LABELS).map(([v, l]) => (
@@ -168,10 +168,10 @@ export default function Documents({ universityId }) {
 
       <form
         onSubmit={handleUpload}
-        className="rounded-lg border border-dashed border-line p-5 grid gap-4 sm:grid-cols-2"
+        className="rounded-2xl border-2 border-dashed border-line p-5 grid gap-4 sm:grid-cols-2"
       >
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Dosya</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Dosya</label>
           <input
             type="file"
             required
@@ -182,7 +182,7 @@ export default function Documents({ universityId }) {
         </div>
 
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Başlık</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Başlık</label>
           <input
             className={FIELD}
             placeholder="Boş bırakırsan dosya adı kullanılır"
@@ -192,7 +192,7 @@ export default function Documents({ universityId }) {
         </div>
 
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Tür</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Tür</label>
           <select
             className={FIELD}
             value={form.doc_type}
@@ -206,7 +206,7 @@ export default function Documents({ universityId }) {
 
         {form.doc_type === 'motivation_letter' && (
           <div>
-            <label className="block text-xs text-ink-faint mb-1.5">Yazım aşaması</label>
+            <label className="block text-sm font-bold text-ink-soft mb-1.5">Yazım aşaması</label>
             <select
               className={FIELD}
               value={form.stage}
@@ -223,7 +223,7 @@ export default function Documents({ universityId }) {
           <button
             type="submit"
             disabled={uploading}
-            className="rounded-md border border-accent px-5 py-2 text-sm text-accent
+            className="rounded-xl border-2 border-accent px-5 py-2 text-sm text-accent
                        hover:bg-accent-soft disabled:opacity-50 transition"
           >
             {uploading ? 'Yükleniyor…' : 'Yükle'}

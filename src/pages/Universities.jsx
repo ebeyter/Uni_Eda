@@ -98,7 +98,7 @@ export default function Universities() {
     <Layout nav={EDA_NAV}>
       <header className="mb-8">
         <h1 className="text-3xl mb-2">Üniversiteler</h1>
-        <p className="text-ink-soft text-sm">
+        <p className="lede">
           Önce adını ve tarihlerini gir, kalan bilgileri sonra tamamlarsın.
         </p>
       </header>
@@ -106,11 +106,11 @@ export default function Universities() {
       {/* Hızlı ekleme */}
       <form
         onSubmit={handleAdd}
-        className="rounded-lg border border-line bg-surface p-5 mb-10"
+        className="rounded-2xl border border-line bg-surface p-5 mb-10"
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr_auto] lg:items-end">
           <div>
-            <label htmlFor="name" className="block text-xs text-ink-faint mb-1.5">
+            <label htmlFor="name" className="block text-sm font-bold text-ink-soft mb-1.5">
               Üniversite adı
             </label>
             <input
@@ -119,13 +119,13 @@ export default function Universities() {
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Sciences Po"
-              className="w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm
+              className="w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm
                          outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label htmlFor="country" className="block text-xs text-ink-faint mb-1.5">
+            <label htmlFor="country" className="block text-sm font-bold text-ink-soft mb-1.5">
               Ülke
             </label>
             <input
@@ -135,7 +135,7 @@ export default function Universities() {
               value={form.country}
               onChange={(e) => setForm({ ...form, country: e.target.value })}
               placeholder="Fransa"
-              className="w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm
+              className="w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm
                          outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
             <datalist id="country-list">
@@ -144,7 +144,7 @@ export default function Universities() {
           </div>
 
           <div>
-            <label htmlFor="start" className="block text-xs text-ink-faint mb-1.5">
+            <label htmlFor="start" className="block text-sm font-bold text-ink-soft mb-1.5">
               Başvuru başlangıcı
             </label>
             <input
@@ -152,13 +152,13 @@ export default function Universities() {
               type="date"
               value={form.application_start}
               onChange={(e) => setForm({ ...form, application_start: e.target.value })}
-              className="w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm
+              className="w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm
                          outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
 
           <div>
-            <label htmlFor="deadline" className="block text-xs text-ink-faint mb-1.5">
+            <label htmlFor="deadline" className="block text-sm font-bold text-ink-soft mb-1.5">
               Son tarih
             </label>
             <input
@@ -166,7 +166,7 @@ export default function Universities() {
               type="date"
               value={form.application_deadline}
               onChange={(e) => setForm({ ...form, application_deadline: e.target.value })}
-              className="w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm
+              className="w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm
                          outline-none focus:border-accent focus:ring-1 focus:ring-accent"
             />
           </div>
@@ -174,7 +174,7 @@ export default function Universities() {
           <button
             type="submit"
             disabled={saving}
-            className="rounded-md bg-accent px-5 py-2 text-sm text-white
+            className="rounded-xl bg-accent px-5 py-2 text-sm text-white
                        hover:opacity-90 disabled:opacity-50 transition"
           >
             {saving ? 'Ekleniyor…' : 'Ekle'}
@@ -183,7 +183,7 @@ export default function Universities() {
       </form>
 
       {error && (
-        <div className="rounded-lg border border-line bg-surface p-4 mb-6">
+        <div className="rounded-2xl border border-line bg-surface p-4 mb-6">
           <p className="text-sm text-alert-critical">{error}</p>
         </div>
       )}
@@ -191,9 +191,9 @@ export default function Universities() {
       {loading ? (
         <p className="text-ink-faint text-sm">Yükleniyor…</p>
       ) : rows.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-line bg-surface/60 p-10 text-center">
+        <div className="rounded-2xl border-2 border-dashed border-line bg-surface/60 p-10 text-center">
           <h2 className="text-xl mb-2">Liste boş</h2>
-          <p className="text-ink-soft text-sm">
+          <p className="lede">
             Yukarıdaki formdan ilk üniversiteni ekle.
           </p>
         </div>
@@ -201,7 +201,7 @@ export default function Universities() {
         <div className="space-y-8">
           {Object.entries(byCountry).map(([country, list]) => (
             <section key={country}>
-              <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-3 pb-2 border-b border-line">
+              <h2 className="section-title mb-3 pb-2 border-b border-line">
                 {country} <span className="text-ink-faint/60">({list.length})</span>
               </h2>
 
@@ -209,7 +209,7 @@ export default function Universities() {
                 {list.map((uni) => (
                   <li
                     key={uni.id}
-                    className="group rounded-lg border border-line bg-surface px-5 py-4
+                    className="group rounded-2xl border border-line bg-surface px-5 py-4
                                flex flex-wrap items-center justify-between gap-x-6 gap-y-2"
                   >
                     <div className="min-w-0">

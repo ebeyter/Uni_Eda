@@ -1,47 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ===========================================================================
-   Tasarım sistemi — "sakin akademik"
-   Kırık beyaz zemin, koyu lacivert metin, serif başlıklar, koyu yeşil vurgu.
-   Renkler tek yerden yönetilir; bir tonu değiştirmek tüm siteyi değiştirir.
+   Tasarım sistemi
+   Başlıklar: Bricolage Grotesque (kalın, karakterli)
+   Metin:     Manrope (yuvarlak, okunaklı)
+   Renkler CSS değişkeni; karanlık mod aynı değişkenleri değiştirerek çalışır.
    =========================================================================== */
 @theme {
-  /* Zeminler */
-  --color-parchment: #faf8f3;  /* sayfa zemini — kırık beyaz */
-  --color-surface:   #ffffff;  /* kartlar */
-  --color-line:      #e7e2d8;  /* ince ayraç çizgileri */
+  --color-canvas:    #fdf7f2;
+  --color-surface:   #ffffff;
+  --color-surface-2: #fdeee4;
+  --color-line:      #ecdcd0;
 
-  /* Metin */
-  --color-ink:       #1c2b3a;  /* koyu lacivert — ana metin */
-  --color-ink-soft:  #5a6b7d;  /* ikincil metin */
-  --color-ink-faint: #94a1b0;  /* etiketler, ipuçları */
+  --color-ink:       #2a1d33;
+  --color-ink-soft:  #5f5069;
+  --color-ink-faint: #8a7b93;
 
-  /* Vurgu */
-  --color-accent:      #1f5c48;  /* koyu yeşil */
-  --color-accent-soft: #eaf2ee;
+  --color-accent:      #e15554;
+  --color-accent-dark: #c33f45;
+  --color-accent-soft: #fde8e6;
+  --color-amber:       #ef9f45;
+  --color-mint:        #26948a;
+  --color-mint-soft:   #e0f3f0;
 
-  /* Deadline uyarı renkleri — B'nin kartlarından */
-  --color-alert-critical: #b3392f;
-  --color-alert-warning:  #b87326;
-  --color-alert-ok:       #1f5c48;
+  --color-alert-critical: #d13438;
+  --color-alert-warning:  #c8720f;
+  --color-alert-ok:       #26948a;
 
-  /* Yazı tipleri */
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-html, body, #root {
-  height: 100%;
+/* --- Karanlık mod: aynı değişkenler, farklı değerler --- */
+:root[data-theme='dark'] {
+  --color-canvas:    #17131d;
+  --color-surface:   #211a29;
+  --color-surface-2: #2c2335;
+  --color-line:      #3b3046;
+
+  --color-ink:       #f6eff4;
+  --color-ink-soft:  #c4b6ce;
+  --color-ink-faint: #9b8da6;
+
+  --color-accent:      #ff7070;
+  --color-accent-dark: #ff9090;
+  --color-accent-soft: #3c2130;
+  --color-amber:       #f5b76a;
+  --color-mint:        #4ec9b6;
+  --color-mint-soft:   #17403c;
+
+  --color-alert-critical: #ff7a7a;
+  --color-alert-warning:  #f0ab55;
+  --color-alert-ok:       #4ec9b6;
 }
+
+html, body, #root { height: 100%; }
 
 body {
-  background-color: var(--color-parchment);
+  background-color: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
+
+  /* Hafif arka plan: düz renk yerine yumuşak renk geçişleri */
+  background-image:
+    radial-gradient(56rem 40rem at 12% -8%,  color-mix(in oklab, var(--color-accent) 12%, transparent), transparent 70%),
+    radial-gradient(48rem 36rem at 92% 4%,   color-mix(in oklab, var(--color-amber)  14%, transparent), transparent 70%),
+    radial-gradient(52rem 40rem at 50% 108%, color-mix(in oklab, var(--color-mint)   10%, transparent), transparent 70%);
+  background-attachment: fixed;
 }
 
-h1, h2, h3 {
-  font-family: var(--font-serif);
+/* --- Başlık hiyerarşisi ---
+   Sorun: başlık ile alt başlık birbirine çok yakındı.
+   Çözüm: boyut farkı büyütüldü, başlıklar 800 ağırlıkta ve daha koyu;
+   alt metinler daha küçük ve yumuşak renkte. */
+h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+/* Bölüm başlığı: solunda vurgu çizgisi, küçük ve kalın */
+.section-title {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-title::before {
+  content: '';
+  width: 0.75rem;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  flex: none;
+}
+
+/* Sayfa girişindeki açıklama metni — başlıktan net ayrışsın */
+.lede {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  button, a, input, select { min-height: 40px; }
+}
+
+@keyframes blob-drift {
+  0%,  100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(3%, -4%) scale(1.08); }
+  66%       { transform: translate(-3%, 3%) scale(0.95); }
+}
+.blob { animation: blob-drift 18s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none; }
 }

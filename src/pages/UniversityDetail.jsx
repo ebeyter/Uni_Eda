@@ -8,13 +8,13 @@ import Documents from '../components/Documents'
 import Contacts from '../components/Contacts'
 
 const FIELD =
-  'w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm ' +
+  'w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm ' +
   'outline-none focus:border-accent focus:ring-1 focus:ring-accent'
 
 function Field({ label, hint, children }) {
   return (
     <div>
-      <label className="block text-xs text-ink-faint mb-1.5">{label}</label>
+      <label className="block text-sm font-bold text-ink-soft mb-1.5">{label}</label>
       {children}
       {hint && <p className="text-xs text-ink-faint mt-1">{hint}</p>}
     </div>
@@ -110,7 +110,7 @@ export default function UniversityDetail() {
   if (!uni) {
     return (
       <Layout nav={EDA_NAV}>
-        <p className="text-ink-soft">Üniversite bulunamadı.</p>
+        <p className="lede">Üniversite bulunamadı.</p>
         <Link to="/universiteler" className="text-accent text-sm">← Listeye dön</Link>
       </Layout>
     )
@@ -127,21 +127,21 @@ export default function UniversityDetail() {
 
       <header className="mb-8">
         <h1 className="text-3xl mb-1">{uni.name}</h1>
-        <p className="text-ink-soft text-sm">
+        <p className="lede">
           {[uni.city, uni.country].filter(Boolean).join(', ')}
         </p>
       </header>
 
       {error && (
-        <div className="rounded-lg border border-line bg-surface p-4 mb-6">
+        <div className="rounded-2xl border border-line bg-surface p-4 mb-6">
           <p className="text-sm text-alert-critical">{error}</p>
         </div>
       )}
 
       <form onSubmit={handleSave} className="space-y-6">
         {/* Temel bilgiler */}
-        <section className="rounded-lg border border-line bg-surface p-5">
-          <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4">
+        <section className="rounded-2xl border border-line bg-surface p-5">
+          <h2 className="section-title mb-4">
             Temel bilgiler
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -165,8 +165,8 @@ export default function UniversityDetail() {
         </section>
 
         {/* Başvuru */}
-        <section className="rounded-lg border border-line bg-surface p-5">
-          <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4">
+        <section className="rounded-2xl border border-line bg-surface p-5">
+          <h2 className="section-title mb-4">
             Başvuru
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -211,8 +211,8 @@ export default function UniversityDetail() {
         </section>
 
         {/* Notlar */}
-        <section className="rounded-lg border border-line bg-surface p-5">
-          <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4">
+        <section className="rounded-2xl border border-line bg-surface p-5">
+          <h2 className="section-title mb-4">
             Notların
           </h2>
           <Field label="Özel notlar" hint="Sadece sen görürsün.">
@@ -225,7 +225,7 @@ export default function UniversityDetail() {
           <button
             type="submit"
             disabled={saving}
-            className="rounded-md bg-accent px-6 py-2.5 text-sm text-white
+            className="rounded-xl bg-accent px-6 py-2.5 text-sm text-white
                        hover:opacity-90 disabled:opacity-50 transition"
           >
             {saving ? 'Kaydediliyor…' : 'Kaydet'}
@@ -236,14 +236,14 @@ export default function UniversityDetail() {
 
       {/* Bölümler */}
       <section className="mt-12">
-        <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4 pb-2 border-b border-line">
+        <h2 className="section-title mb-4 pb-2 border-b border-line">
           Bölümler ({programs.length})
         </h2>
 
         {programs.length > 0 && (
           <ul className="space-y-3 mb-6">
             {programs.map((p) => (
-              <li key={p.id} className="group rounded-lg border border-line bg-surface p-5">
+              <li key={p.id} className="group rounded-2xl border border-line bg-surface p-5">
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-lg">{p.name}</h3>
                   <button
@@ -265,7 +265,7 @@ export default function UniversityDetail() {
           </ul>
         )}
 
-        <form onSubmit={addProgram} className="rounded-lg border border-dashed border-line p-5 space-y-4">
+        <form onSubmit={addProgram} className="rounded-2xl border-2 border-dashed border-line p-5 space-y-4">
           <Field label="Bölüm adı">
             <input className={FIELD} required placeholder="Siyaset Bilimi"
                    value={newProgram.name}
@@ -281,7 +281,7 @@ export default function UniversityDetail() {
           </Field>
           <button
             type="submit"
-            className="rounded-md border border-accent px-5 py-2 text-sm text-accent
+            className="rounded-xl border-2 border-accent px-5 py-2 text-sm text-accent
                        hover:bg-accent-soft transition"
           >
             Bölüm ekle

@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 import { formatDate } from '../lib/format'
 
 const FIELD =
-  'w-full rounded-md border border-line bg-parchment px-3 py-2 text-sm ' +
+  'w-full rounded-xl border-2 border-line bg-canvas px-3 py-2 text-sm ' +
   'outline-none focus:border-accent focus:ring-1 focus:ring-accent'
 
 const EMPTY = { person_name: '', person_role: '', contact_info: '', note: '', talked_at: '' }
@@ -58,7 +58,7 @@ export default function Contacts({ universityId }) {
 
   return (
     <section className="mt-12">
-      <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4 pb-2 border-b border-line">
+      <h2 className="section-title mb-4 pb-2 border-b border-line">
         Görüştüğün kişiler ({rows.length})
       </h2>
 
@@ -67,7 +67,7 @@ export default function Contacts({ universityId }) {
       {rows.length > 0 && (
         <ul className="space-y-3 mb-6">
           {rows.map((row) => (
-            <li key={row.id} className="group rounded-lg border border-line bg-surface p-5">
+            <li key={row.id} className="group rounded-2xl border border-line bg-surface p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-lg">{row.person_name}</h3>
@@ -95,33 +95,33 @@ export default function Contacts({ universityId }) {
         </ul>
       )}
 
-      <form onSubmit={handleAdd} className="rounded-lg border border-dashed border-line p-5 grid gap-4 sm:grid-cols-2">
+      <form onSubmit={handleAdd} className="rounded-2xl border-2 border-dashed border-line p-5 grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Kim</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Kim</label>
           <input className={FIELD} required placeholder="Zeynep"
                  value={form.person_name}
                  onChange={(e) => setForm({ ...form, person_name: e.target.value })} />
         </div>
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Kimliği</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Kimliği</label>
           <input className={FIELD} placeholder="2. sınıf öğrencisi"
                  value={form.person_role}
                  onChange={(e) => setForm({ ...form, person_role: e.target.value })} />
         </div>
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">İletişim</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">İletişim</label>
           <input className={FIELD} placeholder="Instagram, e-posta…"
                  value={form.contact_info}
                  onChange={(e) => setForm({ ...form, contact_info: e.target.value })} />
           <p className="text-xs text-ink-faint mt-1">Aile bu alanı görmez.</p>
         </div>
         <div>
-          <label className="block text-xs text-ink-faint mb-1.5">Görüşme tarihi</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Görüşme tarihi</label>
           <input className={FIELD} type="date" value={form.talked_at}
                  onChange={(e) => setForm({ ...form, talked_at: e.target.value })} />
         </div>
         <div className="sm:col-span-2">
-          <label className="block text-xs text-ink-faint mb-1.5">Not</label>
+          <label className="block text-sm font-bold text-ink-soft mb-1.5">Not</label>
           <textarea className={FIELD} rows={3} placeholder="Ne konuştunuz?"
                     value={form.note}
                     onChange={(e) => setForm({ ...form, note: e.target.value })} />
@@ -133,7 +133,7 @@ export default function Contacts({ universityId }) {
           <button
             type="submit"
             disabled={saving}
-            className="rounded-md border border-accent px-5 py-2 text-sm text-accent
+            className="rounded-xl border-2 border-accent px-5 py-2 text-sm text-accent
                        hover:bg-accent-soft disabled:opacity-50 transition"
           >
             {saving ? 'Ekleniyor…' : 'Kişi ekle'}

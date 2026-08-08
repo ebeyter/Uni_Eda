@@ -34,7 +34,7 @@ export default function Suggestions() {
     <Layout nav={EDA_NAV}>
       <header className="mb-8">
         <h1 className="text-3xl mb-2">Öneriler</h1>
-        <p className="text-ink-soft text-sm">
+        <p className="lede">
           {unread > 0
             ? `${unread} okunmamış öneri var.`
             : 'Ailenin bıraktığı öneriler burada görünür.'}
@@ -46,9 +46,9 @@ export default function Suggestions() {
       {loading ? (
         <p className="text-ink-faint text-sm">Yükleniyor…</p>
       ) : rows.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-line bg-surface/60 p-10 text-center">
+        <div className="rounded-2xl border-2 border-dashed border-line bg-surface/60 p-10 text-center">
           <h2 className="text-xl mb-2">Henüz öneri yok</h2>
-          <p className="text-ink-soft text-sm">
+          <p className="lede">
             Ailen bir şey yazdığında burada belirir.
           </p>
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import Layout from '../components/Layout'
 import { FAMILY_NAV } from '../nav'
@@ -8,7 +9,7 @@ function UniversityCard({ uni, programs, notes }) {
   const [openProgram, setOpenProgram] = useState(null)
 
   return (
-    <article className="rounded-lg border border-line bg-surface p-5">
+    <article className="rounded-2xl border border-line bg-surface p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h3 className="text-lg">{uni.name}</h3>
         {uni.tuition_fee != null && (
@@ -21,11 +22,11 @@ function UniversityCard({ uni, programs, notes }) {
 
       <dl className="mt-4 pt-3 border-t border-line grid grid-cols-2 gap-4 text-sm">
         <div>
-          <dt className="text-xs text-ink-faint mb-0.5">Başvuru başlangıcı</dt>
+          <dt className="text-sm font-bold text-ink-soft mb-0.5">Başvuru başlangıcı</dt>
           <dd>{formatDate(uni.application_start)}</dd>
         </div>
         <div>
-          <dt className="text-xs text-ink-faint mb-0.5">Son tarih</dt>
+          <dt className="text-sm font-bold text-ink-soft mb-0.5">Son tarih</dt>
           <dd>{formatDate(uni.application_deadline)}</dd>
         </div>
       </dl>
@@ -117,18 +118,31 @@ export default function FamilyHome() {
 
   return (
     <Layout nav={FAMILY_NAV}>
-      <header className="mb-10">
-        <h1 className="text-4xl mb-3">
-          Hello family, let's follow up on Eda's university journey
-        </h1>
-        <p className="text-ink-soft max-w-xl leading-relaxed">
-          Eda'nın başvuracağı üniversiteler ve tarihleri burada. Aklınıza bir şey
-          gelirse öneri bırakabilirsiniz — Eda kendi sayfasında görüyor.
+      <header className="mb-8">
+        <h1 className="text-4xl sm:text-5xl mb-1">Hello family,</h1>
+        <p className="font-display text-xl sm:text-2xl lg:text-3xl font-bold text-accent">
+          let's follow up on Eda's university journey
         </p>
+
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <Link
+            to="/oneri-birak"
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3
+                       font-bold text-white shadow-lg shadow-accent/25
+                       hover:bg-accent-dark transition"
+          >
+            Öneri bırak
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
+          <p className="lede">Aklınıza gelen bir şeyi Eda'ya iletin.</p>
+        </div>
       </header>
 
       {error && (
-        <div className="rounded-lg border border-line bg-surface p-4 mb-6">
+        <div className="rounded-2xl border border-line bg-surface p-4 mb-6">
           <p className="text-sm text-alert-critical">Veri okunamadı: {error}</p>
         </div>
       )}
@@ -136,9 +150,9 @@ export default function FamilyHome() {
       {loading ? (
         <p className="text-ink-faint text-sm">Yükleniyor…</p>
       ) : rows.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-line bg-surface/60 p-10 text-center">
+        <div className="rounded-2xl border-2 border-dashed border-line bg-surface/60 p-10 text-center">
           <h2 className="text-xl mb-2">Liste henüz hazırlanıyor</h2>
-          <p className="text-ink-soft text-sm">
+          <p className="lede">
             Eda üniversiteleri eklediğinde burada görünecek.
           </p>
         </div>
@@ -146,7 +160,7 @@ export default function FamilyHome() {
         <div className="space-y-10">
           {Object.entries(byCountry).map(([country, list]) => (
             <section key={country}>
-              <h2 className="text-sm uppercase tracking-wider text-ink-faint mb-4 pb-2 border-b border-line">
+              <h2 className="section-title mb-4 pb-2 border-b border-line">
                 {country}
               </h2>
               <div className="space-y-3">

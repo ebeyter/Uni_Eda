@@ -1,17 +1,12 @@
-const ALERT_STYLES = {
-  critical: { bar: 'bg-alert-critical', text: 'text-alert-critical', label: 'Son günler' },
-  warning:  { bar: 'bg-alert-warning',  text: 'text-alert-warning',  label: 'Yaklaşıyor' },
-  missed:   { bar: 'bg-alert-critical', text: 'text-alert-critical', label: 'Tarih geçti' },
-  ok:       { bar: 'bg-alert-ok',       text: 'text-alert-ok',       label: 'Zaman var' },
-  no_date:  { bar: 'bg-line',           text: 'text-ink-faint',      label: 'Tarih girilmedi' },
-  none:     { bar: 'bg-line',           text: 'text-ink-faint',      label: 'Tamamlandı' },
-}
+import { formatDate } from '../lib/format'
 
-function formatDate(value) {
-  if (!value) return '—'
-  return new Date(value).toLocaleDateString('tr-TR', {
-    day: 'numeric', month: 'long', year: 'numeric',
-  })
+const ALERT_STYLES = {
+  critical: { bg: 'bg-accent-soft',  ring: 'border-accent',        text: 'text-accent-dark', label: 'Son günler' },
+  missed:   { bg: 'bg-accent-soft',  ring: 'border-accent',        text: 'text-accent-dark', label: 'Tarih geçti' },
+  warning:  { bg: 'bg-surface-2',    ring: 'border-amber',         text: 'text-alert-warning', label: 'Yaklaşıyor' },
+  ok:       { bg: 'bg-mint-soft',    ring: 'border-mint',          text: 'text-mint',        label: 'Zaman var' },
+  no_date:  { bg: 'bg-surface',      ring: 'border-line',          text: 'text-ink-faint',   label: 'Tarih girilmedi' },
+  none:     { bg: 'bg-surface',      ring: 'border-line',          text: 'text-ink-faint',   label: 'Tamamlandı' },
 }
 
 export default function DeadlineCard({ item }) {
@@ -19,27 +14,27 @@ export default function DeadlineCard({ item }) {
   const days = item.days_left
 
   return (
-    <article className="relative overflow-hidden rounded-lg border border-line bg-surface p-5">
-      {/* Sol kenardaki renk şeridi — uyarı seviyesini bir bakışta gösterir */}
-      <span className={`absolute left-0 top-0 h-full w-1 ${style.bar}`} aria-hidden="true" />
-
+    <article
+      className={`min-w-0 rounded-2xl border-2 ${style.ring} ${style.bg} p-5
+                  transition hover:-translate-y-0.5 hover:shadow-lg`}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="text-lg truncate">{item.name}</h3>
-          <p className="text-sm text-ink-soft mt-0.5">
+          <h3 className="text-xl font-bold truncate">{item.name}</h3>
+          <p className="text-sm font-semibold text-ink-soft mt-0.5 truncate">
             {[item.city, item.country].filter(Boolean).join(', ')}
           </p>
         </div>
 
         <div className="text-right shrink-0">
           {days === null || days === undefined ? (
-            <span className="text-sm text-ink-faint">{style.label}</span>
+            <span className={`text-sm font-bold ${style.text}`}>{style.label}</span>
           ) : (
             <>
-              <div className={`font-serif text-2xl leading-none ${style.text}`}>
-                {days < 0 ? `${Math.abs(days)}` : days}
+              <div className={`font-display text-4xl font-bold leading-none ${style.text}`}>
+                {Math.abs(days)}
               </div>
-              <div className="text-xs text-ink-faint mt-1">
+              <div className="text-xs font-bold text-ink-soft mt-1">
                 {days < 0 ? 'gün geçti' : 'gün kaldı'}
               </div>
             </>
@@ -47,9 +42,9 @@ export default function DeadlineCard({ item }) {
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-line flex justify-between text-xs text-ink-faint">
-        <span>Son tarih</span>
-        <span className="text-ink-soft">{formatDate(item.application_deadline)}</span>
+      <div className="mt-4 pt-3 border-t border-line/70 flex justify-between text-sm">
+        <span className="font-semibold text-ink-soft">Son tarih</span>
+        <span className="font-bold">{formatDate(item.application_deadline)}</span>
       </div>
     </article>
   )
