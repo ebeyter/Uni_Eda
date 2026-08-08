@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import Layout from '../components/Layout'
 import DeadlineCard from '../components/DeadlineCard'
-
-const NAV = [
-  { to: '/', label: 'Genel bakış', end: true },
-  { to: '/universiteler', label: 'Üniversiteler' },
-  { to: '/takvim', label: 'Takvim' },
-  { to: '/oneriler', label: 'Öneriler' },
-]
+import { EDA_NAV } from '../nav'
 
 export default function EdaHome() {
   const [rows, setRows] = useState([])
@@ -30,7 +24,7 @@ export default function EdaHome() {
   const urgent = rows.filter((r) => ['critical', 'warning'].includes(r.alert_level))
 
   return (
-    <Layout nav={NAV}>
+    <Layout nav={EDA_NAV}>
       <header className="mb-10">
         <p className="text-xs uppercase tracking-[0.2em] text-ink-faint mb-3">
           {new Date().toLocaleDateString('tr-TR', {

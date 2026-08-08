@@ -2,7 +2,12 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './auth/AuthProvider'
 import Login from './pages/Login'
 import EdaHome from './pages/EdaHome'
+import Universities from './pages/Universities'
+import UniversityDetail from './pages/UniversityDetail'
+import Calendar from './pages/Calendar'
+import Suggestions from './pages/Suggestions'
 import FamilyHome from './pages/FamilyHome'
+import FamilySuggest from './pages/FamilySuggest'
 
 function Routing() {
   const { session, profile, loading, isEda } = useAuth()
@@ -39,10 +44,26 @@ function Routing() {
     )
   }
 
-  // Rol neyse o taraf açılır — aynı adres, farklı site
+  // Rol neyse o taraf açılır — aynı adres, farklı site.
+  // Eda'nın sayfaları aile tarafında hiç tanımlı değil; adresi elle yazsalar
+  // bile ana sayfaya dönerler (veritabanı da ayrıca engelliyor).
+  if (isEda) {
+    return (
+      <Routes>
+        <Route path="/" element={<EdaHome />} />
+        <Route path="/universiteler" element={<Universities />} />
+        <Route path="/universiteler/:id" element={<UniversityDetail />} />
+        <Route path="/takvim" element={<Calendar />} />
+        <Route path="/oneriler" element={<Suggestions />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    )
+  }
+
   return (
     <Routes>
-      <Route path="/" element={isEda ? <EdaHome /> : <FamilyHome />} />
+      <Route path="/" element={<FamilyHome />} />
+      <Route path="/oneri-birak" element={<FamilySuggest />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
