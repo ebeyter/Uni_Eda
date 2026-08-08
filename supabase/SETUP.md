@@ -12,14 +12,50 @@ Dosya defalarca çalıştırılabilir — var olanı atlar, eksiği tamamlar, hi
 
 Bu adım SQL ile yapılamıyor, sadece panelden yapılabiliyor. Açık kalırsa siteyi bulan herkes kendine hesap açıp aile görünümüne girebilir.
 
-## 3. Hesapları aç
+## 3. Hesapları aç (kod ile giriş)
 
-**Authentication → Users → Add user** ile hesapları oluştur:
+Kimse e-posta girmiyor — herkes kendine ait bir **kod** yazarak giriyor. Kod, arka planda hesabın hem adresini hem şifresini oluşturuyor.
 
-- `edabeyter5@gmail.com` → otomatik olarak **eda** rolü alır, her şeyi görür
-- Aile üyeleri (her birine ayrı hesap) → otomatik olarak **family** rolü alır, kısıtlı görünümü görür
+**Authentication → Users → Add user → Create new user** ile her kişi için:
 
-Rol ataması e-postaya bakılarak kendiliğinden yapılır, elle bir şey ayarlamana gerek yok.
+| Alan | Ne yazacaksın |
+|---|---|
+| Email | `<kod>@eda.uniplan.app` (sen) veya `<kod>@family.uniplan.app` (aile) |
+| Password | **kodun kendisi** — adresin başındaki kelimenin aynısı |
+| Auto Confirm User | ✅ **mutlaka işaretle** |
+
+### Örnek
+
+Kendine `edaplan2027` kodunu seçtin:
+- Email: `edaplan2027@eda.uniplan.app`
+- Password: `edaplan2027`
+
+Annen için `anne-kitap41`:
+- Email: `anne-kitap41@family.uniplan.app`
+- Password: `anne-kitap41`
+
+Giriş ekranında sadece `edaplan2027` yazılıyor, gerisini uygulama hallediyor.
+
+### Kurallar
+
+- Kod **en az 6 karakter** olmalı (Supabase'in alt sınırı)
+- Sadece küçük harf, rakam, `-`, `.` ve `_` kullan
+- Adresin başındaki kelime ile şifre **birebir aynı** olmalı, yoksa giriş çalışmaz
+- `@eda.uniplan.app` ile biten hesaplar **eda** rolü, `@family.uniplan.app` ile bitenler **family** rolü alır — bu otomatik
+- Bu adreslere hiç e-posta gönderilmez, sadece kimlik ayırt etmeye yarar
+
+### Görünen ad
+
+Aile üyesinin adı ilk başta kodu olarak görünür (`anne-kitap41`). Bunu düzeltmek için:
+
+```sql
+update public.profiles set full_name = 'Anne'
+where id = (select id from auth.users where email = 'anne-kitap41@family.uniplan.app');
+```
+
+### Kod değiştirmek
+
+Bir kod sızarsa **Authentication → Users** listesinden o kullanıcıyı sil ve yeni kodla yeniden oluştur.
 
 ---
 

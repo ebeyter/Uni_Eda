@@ -409,12 +409,10 @@ end $$;
 
 -- --- profiles ---
 -- Herkes kendi profilini görür ve adını değiştirebilir; Eda hepsini görür.
-drop policy if exists "kendi profilini gor" on public.profiles;
 create policy "kendi profilini gor"
   on public.profiles for select
   using (id = auth.uid() or public.is_eda());
 
-drop policy if exists "kendi profilini duzenle" on public.profiles;
 create policy "kendi profilini duzenle"
   on public.profiles for update
   using (id = auth.uid())
@@ -422,50 +420,40 @@ create policy "kendi profilini duzenle"
 
 -- --- Sadece Eda'ya ait tablolar ---
 -- Aile bu tabloların hiçbirine doğrudan erişemez (view üzerinden erişir).
-drop policy if exists "eda tam yetki" on public.universities;
 create policy "eda tam yetki" on public.universities
   for all using (public.is_eda()) with check (public.is_eda());
 
-drop policy if exists "eda tam yetki" on public.programs;
 create policy "eda tam yetki" on public.programs
   for all using (public.is_eda()) with check (public.is_eda());
 
-drop policy if exists "eda tam yetki" on public.contacts;
 create policy "eda tam yetki" on public.contacts
   for all using (public.is_eda()) with check (public.is_eda());
 
-drop policy if exists "eda tam yetki" on public.documents;
 create policy "eda tam yetki" on public.documents
   for all using (public.is_eda()) with check (public.is_eda());
 
-drop policy if exists "eda tam yetki" on public.calendar_events;
 create policy "eda tam yetki" on public.calendar_events
   for all using (public.is_eda()) with check (public.is_eda());
 
 -- --- suggestions ---
 -- Aile öneri yazar ve kendi yazdığını görür; Eda hepsini görür ve okundu işaretler.
-drop policy if exists "kendi onerilerini gor" on public.suggestions;
 create policy "kendi onerilerini gor"
   on public.suggestions for select
   using (author_id = auth.uid() or public.is_eda());
 
-drop policy if exists "oneri yaz" on public.suggestions;
 create policy "oneri yaz"
   on public.suggestions for insert
   with check (author_id = auth.uid());
 
-drop policy if exists "kendi onerini duzenle" on public.suggestions;
 create policy "kendi onerini duzenle"
   on public.suggestions for update
   using (author_id = auth.uid() and not is_read)
   with check (author_id = auth.uid());
 
-drop policy if exists "eda okundu isaretler" on public.suggestions;
 create policy "eda okundu isaretler"
   on public.suggestions for update
   using (public.is_eda()) with check (public.is_eda());
 
-drop policy if exists "kendi onerini sil" on public.suggestions;
 create policy "kendi onerini sil"
   on public.suggestions for delete
   using (author_id = auth.uid() or public.is_eda());

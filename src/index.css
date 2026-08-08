@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Tasarım sistemi — "sakin akademik"
+   Kırık beyaz zemin, koyu lacivert metin, serif başlıklar, koyu yeşil vurgu.
+   Renkler tek yerden yönetilir; bir tonu değiştirmek tüm siteyi değiştirir.
+   =========================================================================== */
+@theme {
+  /* Zeminler */
+  --color-parchment: #faf8f3;  /* sayfa zemini — kırık beyaz */
+  --color-surface:   #ffffff;  /* kartlar */
+  --color-line:      #e7e2d8;  /* ince ayraç çizgileri */
+
+  /* Metin */
+  --color-ink:       #1c2b3a;  /* koyu lacivert — ana metin */
+  --color-ink-soft:  #5a6b7d;  /* ikincil metin */
+  --color-ink-faint: #94a1b0;  /* etiketler, ipuçları */
+
+  /* Vurgu */
+  --color-accent:      #1f5c48;  /* koyu yeşil */
+  --color-accent-soft: #eaf2ee;
+
+  /* Deadline uyarı renkleri — B'nin kartlarından */
+  --color-alert-critical: #b3392f;
+  --color-alert-warning:  #b87326;
+  --color-alert-ok:       #1f5c48;
+
+  /* Yazı tipleri */
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-parchment);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
